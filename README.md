@@ -623,7 +623,7 @@ Se abrira, en nuestro navegador la siguiente pagina (incluire todas las imagenes
 ![img-carpeta-projecto](https://github.com/Cristopher-Ovaillos/Cubes-Data-Brewery/blob/main/img/image_18.png)
 
 **Esto veremos inicialmente, pero podemos hacer varias cosas.**
-![img-carpeta-projecto](https://github.com/Cristopher-Ovaillos/Cubes-Data-Brewery/blob/main/img/image_19.png)
+![img-carpeta-projecto](https://github.com/Cristopher-Ovaillos/Cubes-Data-Brewery/blob/main/img/image_20.png)
 
 Esto que vimos es el punto de partida.
 Se inició en la vista "Aggregated data" (Datos Agregados), que mostraba una única fila con los totales generales del cubo (ej. Suma de Cantidad: 48.00, Suma de Monto: 12 095.00, etc.)
