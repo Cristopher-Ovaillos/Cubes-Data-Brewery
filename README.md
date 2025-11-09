@@ -599,6 +599,9 @@ git clone https://github.com/jjmontesl/cubesviewer.git
 - Si tiene el server del slice.ini encendido desactivelo con `CTRL + C`
 
 - Crear un archivo nuevo dentro de data/`server.py`.
+
+[Ver contenido](https://github.com/Cristopher-Ovaillos/Cubes-Data-Brewery/blob/main/data/server.py)
+
   - De acuerdo a sus datos, dentro hay una seccion donde ingresamos el .ini como string (ahi puede cambiar de acuerdo a su conveniencia).
 ![img-carpeta-projecto](https://github.com/Cristopher-Ovaillos/Cubes-Data-Brewery/blob/main/img/image_14.png)
 - Ingresar el siguiente comando:
