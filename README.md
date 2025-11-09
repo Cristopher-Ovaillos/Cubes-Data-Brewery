@@ -1,10 +1,25 @@
 # GUIA instalacion de Cubes
+Tener una zona de trabajo, abrir la terminal de VSCODE y ejecutar en esa ubicacion lo siguiente: 
 
 ```bash
 git clone https://github.com/Cristopher-Ovaillos/Cubes-Data-Brewery.git
 
 cd Cubes-Data-Brewery
 ```
+
+## Índice
+
+- [Que es CUBES](#que-es-cubes)
+- [Archivos a descargar e instalar](#archivos-a-descargar-e-instalar)
+- [Recursos y Documentación de Cubes OLAP](#recursos-y-documentación-de-cubes-olap)
+- [Python 3.6.7](#python-367)
+- [PASO 1: DB BROWSER SQLITE](#paso-1-db-browser-sqlite)
+- [PASO 2: Entorno Virtual Python](#paso-2-entorno-virtual-python)
+- [PASO 3: Crear el MODELO del Cubo](#paso-3-crear-el-modelo-del-cubo)
+- [PASO 4: Crear el Archivo de Configuración](#paso-4-crear-el-archivo-de-configuración)
+- [PASO 5: CubesViewer-Intefaz grafica](#paso-5-cubesviewer-intefaz-grafica)
+
+
 ---
 ## Que es CUBES
 
@@ -58,7 +73,7 @@ Es especialmente útil para equipos que necesitan hacer análisis periódicos o 
 
 > Esto sirve para levantar tu servidor OLAP, probar queries y entender operaciones OLAP como `slice`, `dice`, `drill-down` y `roll-up` en un entorno real.
 
-
+## Python 3.6.7
 *Notas:*
 - *Python al ser de uso comun, uno puede presentar la version actualizada es por eso debemos setear de alguna manera a esta version de Python (3.6.7)*.
 - *Usar VSCODE (comodidad para trabajar y hacer uso de la terminal).*
@@ -80,9 +95,6 @@ python --version
 
 
 
-### Carpeta de Trabajo
-
-./Cubes-Data-Brewery
 
 ---
 ## PASO 1: DB BROWSER SQLITE
@@ -492,7 +504,7 @@ http://localhost:5000/cube/ventas/aggregate
 ```bash
 http://localhost:5000/cube/ventas/aggregate?cut=cliente.pais:Argentina|tiempo.anio:2024
 ```
-![img-carpeta-projecto](https://github.com/Cristopher-Ovaillos/Cubes-Data-Brewery/blob/main/img/image_12.png).
+![img-carpeta-projecto](https://github.com/Cristopher-Ovaillos/Cubes-Data-Brewery/blob/main/img/image_12.png)
 
 La consulta realizada al cubo `ventas` solicitó un resumen de los datos correspondientes únicamente a las ventas de clientes en **Argentina** durante el **año 2024**. La respuesta incluye los siguientes elementos:
 
@@ -546,5 +558,130 @@ http://localhost:5000/cube/ventas/aggregate?drilldown=producto:categoria&order=m
 ### Listar Hechos Individuales (Facts)
 ```bash
 http://localhost:5000/cube/ventas/facts
+```
 
----
+## PASO 5: CubesViewer-Intefaz grafica
+
+http://www.cubesviewer.com/#/features
+
+La pagina tiene ejemplos para visualizar el poder de este visualizador.
+http://www.cubesviewer.com/studio.html 
+
+Lo que vamos a hacer, es nuestra zona de trabajo 
+```bash
+    Directorio: C:\Users\Cristopher-Ovaillos\Desktop\Cubes-Project\Cubes-Data-Brewery
+
+
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+d-----        09/11/2025      8:09                cubes_env
+d-----        09/11/2025      8:56                data
+d-----        09/11/2025      9:51                docs
+d-----        09/11/2025      9:28                img
+-a----        09/11/2025      7:20             14 .gitignore
+-a----        09/11/2025      9:50          21596 README.md
+```
+
+Use lo siguiente: 
+https://github.com/jjmontesl/cubesviewer/blob/master/doc/guide/cubesviewer-quickstart.md
+
+Para guiar y utilizar este visualizador.
+- Ingresar el siguiente comando para descargar el CubesViewer.
+```bash
+git clone https://github.com/jjmontesl/cubesviewer.git
+```
+- Si tiene el server del slice.ini encendido desactivelo con `CTRL + C`
+
+- Crear un archivo nuevo dentro de data/`server.py`.
+  - De acuerdo a sus datos, dentro hay una seccion donde ingresamos el .ini como string (ahi puede cambiar de acuerdo a su conveniencia).
+![img-carpeta-projecto](https://github.com/Cristopher-Ovaillos/Cubes-Data-Brewery/blob/main/img/image_14.png)
+- Ingresar el siguiente comando:
+```bash
+python .\data\server.py
+```
+![img-carpeta-projecto](https://github.com/Cristopher-Ovaillos/Cubes-Data-Brewery/blob/main/img/image_16.png)
+Ya anda, perfectamente.
+
+- En otra terminal aparte, no cerrar donde corre el servidor.
+
+
+```bash
+start .\cubesviewer\html\studio.html
+```
+Se abrira, en nuestro navegador la siguiente pagina (incluire todas las imagenes).
+
+**Ingresar la url, que recibimos por el servidor**
+![img-carpeta-projecto](https://github.com/Cristopher-Ovaillos/Cubes-Data-Brewery/blob/main/img/image_17.png)
+
+**En este paso, al inicio suele tardar en ver la tabla del hecho tener paciencia tarda poco  (1 min aprox), si sale el nombre del hecho dan click y listo.**
+![img-carpeta-projecto](https://github.com/Cristopher-Ovaillos/Cubes-Data-Brewery/blob/main/img/image_18.png)
+
+**Esto veremos inicialmente, pero podemos hacer varias cosas.**
+![img-carpeta-projecto](https://github.com/Cristopher-Ovaillos/Cubes-Data-Brewery/blob/main/img/image_19.png)
+
+Esto que vimos es el punto de partida.
+Se inició en la vista "Aggregated data" (Datos Agregados), que mostraba una única fila con los totales generales del cubo (ej. Suma de Cantidad: 48.00, Suma de Monto: 12 095.00, etc.)
+
+1.Vamos a utilizar una consulta.
+
+http://localhost:5000/cube/ventas/aggregate?drilldown=producto.subcategoria&aggregates=cantidad_sum
+Que es un drill down,  que agrupoa los resultados por la dimension Producto/subcategorias y ademas para cada grupo quiero que calcules la medida llamada `Suma de Cantidad` (cuyo nombre interno es cantidad_sum). Que devuleve esto, si lo probamos en el navegador.
+![img-carpeta-projecto](https://github.com/Cristopher-Ovaillos/Cubes-Data-Brewery/blob/main/img/image_25.png)
+
+Es la aplicación CubesViewer la que lee este JSON y decide si lo dibuja como una tabla o como un gráfico de barras.
+
+    - Abres CubesViewer y seleccionas el cubo "ventas".
+    - Haces clic en el botón `[▼ Drilldown]` en la barra de herramientas.
+    - Seleccionas la dimensión que quieres analizar, en este caso, "Producto / Subcategoría".
+![img-carpeta-projecto](https://github.com/Cristopher-Ovaillos/Cubes-Data-Brewery/blob/main/img/image_21.png)
+*La vista "Aggregated data" se actualiza. Ahora, en lugar de una fila, ves múltiples filas: una por cada subcategoría, cada una con su propia "Suma de Cantidad".*
+    - De la siguiente manera, vamos a CHARTS
+        - View->Measure->cantidad->Suma de cantidad
+![img-carpeta-projecto](https://github.com/Cristopher-Ovaillos/Cubes-Data-Brewery/blob/main/img/image_26.png)
+![img-carpeta-projecto](https://github.com/Cristopher-Ovaillos/Cubes-Data-Brewery/blob/main/img/image_24.png)
+
+## Ejes del Gráfico
+
+- **Eje Y (Vertical):** Representa el valor de la *Suma de Cantidad*.  
+  - Cuanto más alta es la barra, mayor es la cantidad vendida.
+
+- **Eje X (Horizontal) y Leyenda:**  
+  - Cada barra individual (y su color correspondiente en la leyenda) representa un miembro de la dimensión **"Producto / Subcategoría"**.
+
+## Lectura del Gráfico
+
+- **Electrónica / Accesorios** (Barra Azul)  
+  - Es la categoría con la *Suma de Cantidad* más alta, alcanzando **32** unidades.
+
+- **Electrónica / Computadoras** (Barra Celeste)  
+  - Segunda categoría con más cantidad: **6** unidades.
+
+- **Electrónica / Monitores** (Naranja) y **Muebles / Oficina** (Naranja Claro)  
+  - Son las categorías con las menores cantidades vendidas.
+
+## ¿Para qué nos sirve esto?
+
+Nos permite **tomar decisiones de negocio rápidas y basadas en datos reales**.  
+Por ejemplo, al analizar las categorías de productos que más se venden:
+
+- **"Electrónica / Accesorios"** es la categoría estrella.  
+  - Se vende **mucho más** que todas las demás categorías juntas.
+
+## Acciones y Beneficios
+
+### 1. Gestión de Inventario
+- Asegurar suficiente stock de **Accesorios**, ya que es lo que más se mueve.  
+- Reducir stock de **Muebles / Oficina** para no tener capital parado.
+
+### 2. Marketing y Ventas
+- Preguntarse:  
+  - ¿Por qué **Muebles / Oficina** y **Monitores** se venden tan poco?  
+  - ¿Necesitan promoción?  
+  - ¿O deberíamos enfocar la publicidad en **Accesorios**, que ya son un éxito?
+
+### 3. Estrategia
+- Detectar riesgos:  
+  - Las ventas dependen principalmente de **una sola categoría**.  
+  - Preguntarse:  
+    - ¿Qué pasaría si el proveedor de accesorios falla?  
+    - ¿Deberíamos impulsar las otras categorías para diversificar?

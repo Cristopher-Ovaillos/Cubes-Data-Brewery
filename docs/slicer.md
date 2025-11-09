@@ -1,4 +1,4 @@
-### Slicer.ini
+### Slicer.ini (GUIA HECHO POR IA para aclarar)
 
 Ese `slicer.ini` (o archivo `.ini`) le dice al servidor de **Cubes / Slicer** cómo arrancar: qué modelo usar, cómo conectarse a la base de datos y en qué host/puerto escuchar. Cada sección controla una parte:
 
