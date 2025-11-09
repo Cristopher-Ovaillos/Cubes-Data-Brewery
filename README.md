@@ -426,3 +426,32 @@ DATOS:
   - El mapping conecta ambos para que Cubes pueda traducir tus consultas a SQL sin que tengas que preocuparte por los nombres reales.
 *En este caso en mi DB se llaman igual asi que no hay problema.*
 
+## PASO 4: Crear el Archivo de Configuración
+
+4.1 Crear un archivo `slicer.ini`
+
+```ini
+[workspace]
+model = modelo.json
+
+[store]
+type = sql
+url = sqlite:///ventas.db
+schema = main
+
+[server]
+host = localhost
+port = 5000
+reload = yes
+log_level = info
+
+[models]
+main = modelo.json  
+```
+4.2 Iniciar el servidor `slicer.ini` (estar en la ubicacion del archivo-acordarse y dentro del entorno).
+
+
+```bash
+slicer serve slicer.ini
+```
+---
