@@ -1,6 +1,6 @@
 # GUIA instalacion de Cubes
 **Cristopher**: Cubes esta descontinuado desde el 2010 asi que no hay ningun tutorial.
-![Mi foto](image.png)
+![Mi foto](https://github.com/Cristopher-Ovaillos/Cubes-Data-Brewery/blob/main/img/image.png)
 
 Tener una zona de trabajo, abrir la terminal de VSCODE y ejecutar en esa ubicacion lo siguiente: 
 
