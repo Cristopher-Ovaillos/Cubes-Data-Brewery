@@ -1,5 +1,11 @@
 # GUIA instalacion de Cubes
 
+```bash
+git clone https://github.com/Cristopher-Ovaillos/Cubes-Data-Brewery.git
+
+cd Cubes-Data-Brewery
+```
+---
 ## Que es CUBES
 
 
@@ -61,19 +67,24 @@ python --version
 
 
 ### Carpeta de Trabajo
-./Cubes-Project
+./Cubes-Data-Brewery
+
 
 *En nuestro projecto mismo, ingresar los siguientes comandos en orden.*
 ```bash
 # Crear un entorno virtual 
 python -m venv cubes_env
-.\cubes_env\Scripts\activate #puedo desactivarlo ingresando en la terminal "deactivate"
+
+# Activar el entorno virtual
+.\cubes_env\Scripts\activate 
+#puedo desactivarlo ingresando en la terminal "deactivate"
 ```
 ![img-carpeta-projecto](https://github.com/Cristopher-Ovaillos/Cubes-Data-Brewery/blob/main/img/image_1.png)
 
 
+**Dentro del entorno Virtual creado anteriormente**
 ```bash
-# Instalar versiones específicas que funcionan juntas
+# Instalar versiones específicas que funcionan juntas 
 pip install cubes==1.1  
 pip install sqlalchemy==1.3.24
 pip install flask==1.1.4
