@@ -22,7 +22,8 @@ Ventajas principales:
 - es integrable con visualizadores y herramientas web.
 
 Es especialmente útil para equipos que necesitan hacer análisis periódicos o exploratorios sobre datos almacenados en bases relacionales, porque acelera la creación de reportes y reduce errores al centralizar la lógica de negocio en el modelo del cubo.
----
+
+
 ## Archivos a descargar e instalar
    - [Python 3.6.7 (OBLIGATORIO: Click ADD-PATCH (Si aparece la opcion, al ejecutar el instalador))](https://drive.google.com/file/d/1wiY7CqwMDopTY8XzxT3vQo3_xUZXJxQT/view?usp=sharing)
    - [DB Browser SQLite](https://drive.google.com/file/d/1uRXYI_d7vVpHZctN9U-4mfLAg-72DVP5/view?usp=sharing)
