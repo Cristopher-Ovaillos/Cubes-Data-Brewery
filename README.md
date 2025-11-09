@@ -626,13 +626,16 @@ Se inició en la vista "Aggregated data" (Datos Agregados), que mostraba una ún
 
 http://localhost:5000/cube/ventas/aggregate?drilldown=producto.subcategoria&aggregates=cantidad_sum
 Que es un drill down,  que agrupoa los resultados por la dimension Producto/subcategorias y ademas para cada grupo quiero que calcules la medida llamada `Suma de Cantidad` (cuyo nombre interno es cantidad_sum). Que devuleve esto, si lo probamos en el navegador.
+
 ![img-carpeta-projecto](https://github.com/Cristopher-Ovaillos/Cubes-Data-Brewery/blob/main/img/image_25.png)
 
 Es la aplicación CubesViewer la que lee este JSON y decide si lo dibuja como una tabla o como un gráfico de barras.
 
-    - Abres CubesViewer y seleccionas el cubo "ventas".
-    - Haces clic en el botón `[▼ Drilldown]` en la barra de herramientas.
-    - Seleccionas la dimensión que quieres analizar, en este caso, "Producto / Subcategoría".
+- Abres CubesViewer y seleccionas el cubo "ventas".
+- Haces clic en el botón `[▼ Drilldown]` en la barra de herramientas.
+- Seleccionas la dimensión que quieres analizar, en este caso, "Producto / Subcategoría".
+
+
 ![img-carpeta-projecto](https://github.com/Cristopher-Ovaillos/Cubes-Data-Brewery/blob/main/img/image_21.png)
 *La vista "Aggregated data" se actualiza. Ahora, en lugar de una fila, ves múltiples filas: una por cada subcategoría, cada una con su propia "Suma de Cantidad".*
     - De la siguiente manera, vamos a CHARTS
