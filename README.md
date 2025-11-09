@@ -488,6 +488,9 @@ Al ingresar http://localhost:5000/ sale lo siguiente para que se entienda:
 
 podemos probar las siguientes consultas (estas se hacen por URL, se puede probar por el navegador y recibiremos .json como respuesta).
 
+**GUIA CONSULTAS-SINTAXIS**
+[Info para saber que es SLICER y que hacer si queremos usar otra base de datos.](https://github.com/Cristopher-Ovaillos/Cubes-Data-Brewery/blob/main/docs/querys.md)
+
 ### Información del Cubo
 ```bash
 http://localhost:5000/cube/ventas/model
