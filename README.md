@@ -68,8 +68,112 @@ python --version
 
 ### Carpeta de Trabajo
 ./Cubes-Data-Brewery
+---
+- Crear una carpeta data.
+- Abrir DB browser (SQLITE).
+- Crear una base de datos `ventas`.
+- Crear tablas y poblar.
+- Guardar cambios
 
+Imagenes
+![img-carpeta-projecto](https://github.com/Cristopher-Ovaillos/Cubes-Data-Brewery/blob/main/img/image_2.png)
+![img-carpeta-projecto](https://github.com/Cristopher-Ovaillos/Cubes-Data-Brewery/blob/main/img/image_3.png)
+![img-carpeta-projecto](https://github.com/Cristopher-Ovaillos/Cubes-Data-Brewery/blob/main/img/image_4.png)
+![img-carpeta-projecto](https://github.com/Cristopher-Ovaillos/Cubes-Data-Brewery/blob/main/img/image_5.png)
+![img-carpeta-projecto](https://github.com/Cristopher-Ovaillos/Cubes-Data-Brewery/blob/main/img/image_6.png)
 
+**Crear tablas**
+
+```sql
+-- Crear tablas
+CREATE TABLE productos (
+    producto_id INTEGER PRIMARY KEY,
+    nombre TEXT,
+    categoria TEXT,
+    subcategoria TEXT
+);
+
+CREATE TABLE clientes (
+    cliente_id INTEGER PRIMARY KEY,
+    nombre TEXT,
+    ciudad TEXT,
+    pais TEXT
+);
+
+CREATE TABLE tiempo (
+    fecha_id INTEGER PRIMARY KEY,
+    fecha TEXT,
+    anio INTEGER,
+    mes INTEGER,
+    trimestre INTEGER
+);
+
+CREATE TABLE ventas (
+    venta_id INTEGER PRIMARY KEY,
+    producto_id INTEGER,
+    cliente_id INTEGER,
+    fecha_id INTEGER,
+    cantidad INTEGER,
+    precio_unitario REAL,
+    monto_total REAL,
+    FOREIGN KEY (producto_id) REFERENCES productos(producto_id),
+    FOREIGN KEY (cliente_id) REFERENCES clientes(cliente_id),
+    FOREIGN KEY (fecha_id) REFERENCES tiempo(fecha_id)
+);
+
+```
+**Poblar tablas**
+
+```sql
+-- Productos
+INSERT INTO productos (producto_id, nombre, categoria, subcategoria) VALUES
+(1, 'Laptop Dell', 'Electrónica', 'Computadoras'),
+(2, 'Mouse Logitech', 'Electrónica', 'Accesorios'),
+(3, 'Teclado Mecánico', 'Electrónica', 'Accesorios'),
+(4, 'Monitor Samsung', 'Electrónica', 'Monitores'),
+(5, 'Silla Ergonómica', 'Muebles', 'Oficina');
+
+-- Clientes
+INSERT INTO clientes (cliente_id, nombre, ciudad, pais) VALUES
+(1, 'Juan Pérez', 'Buenos Aires', 'Argentina'),
+(2, 'María García', 'Neuquén', 'Argentina'),
+(3, 'Carlos López', 'Santiago', 'Chile'),
+(4, 'Ana Martínez', 'Lima', 'Perú'),
+(5, 'Luis Fernández', 'Montevideo', 'Uruguay');
+
+-- Tiempo
+INSERT INTO tiempo (fecha_id, fecha, anio, mes, trimestre) VALUES
+(1, '2024-01-15', 2024, 1, 1),
+(2, '2024-02-20', 2024, 2, 1),
+(3, '2024-03-10', 2024, 3, 1),
+(4, '2024-04-05', 2024, 4, 2),
+(5, '2024-05-22', 2024, 5, 2),
+(6, '2024-06-18', 2024, 6, 2),
+(7, '2024-07-30', 2024, 7, 3),
+(8, '2024-08-12', 2024, 8, 3),
+(9, '2024-09-25', 2024, 9, 3),
+(10, '2024-10-08', 2024, 10, 4);
+
+-- Ventas
+INSERT INTO ventas (venta_id, producto_id, cliente_id, fecha_id, cantidad, precio_unitario, monto_total) VALUES
+(1, 1, 1, 1, 2, 1200.00, 2400.00),
+(2, 2, 2, 2, 5, 25.00, 125.00),
+(3, 3, 3, 3, 3, 80.00, 240.00),
+(4, 4, 1, 4, 1, 450.00, 450.00),
+(5, 5, 2, 5, 2, 300.00, 600.00),
+(6, 1, 4, 6, 1, 1200.00, 1200.00),
+(7, 2, 5, 7, 10, 25.00, 250.00),
+(8, 3, 3, 8, 4, 80.00, 320.00),
+(9, 4, 2, 9, 2, 450.00, 900.00),
+(10, 5, 1, 10, 1, 300.00, 300.00),
+(11, 1, 3, 1, 3, 1200.00, 3600.00),
+(12, 2, 4, 3, 8, 25.00, 200.00),
+(13, 3, 5, 5, 2, 80.00, 160.00),
+(14, 4, 1, 7, 1, 450.00, 450.00),
+(15, 5, 2, 9, 3, 300.00, 900.00);
+
+```
+---
 *En nuestro projecto mismo, ingresar los siguientes comandos en orden.*
 ```bash
 # Crear un entorno virtual 
@@ -91,6 +195,7 @@ pip install flask==1.1.4
 pip install werkzeug==1.0.1
 pip install jsonschema==3.2.0
 pip install flask-cors
+#fin instalacion :D
 ```
 
 **IMPORTANTE**: Estas versiones son compatibles entre sí. NO instales otras versiones.
@@ -108,7 +213,6 @@ pip install flask-cors
 >**jsonschema==3.2.0** Valida archivos JSON según un esquema definido. Cubes lo usa para validar modelos, dimensiones y cubos definidos en JSON.
 
 >**flask-cors** Es una extensión para Flask que maneja CORS (Cross-Origin Resource Sharing). CORS es un mecanismo de seguridad en los navegadores que bloquea solicitudes entre dominios diferentes por defecto. Plantemos lo siguiente, Si nuestro servidor Flask (por ejemplo, Cubes OLAP) corre en localhost:5000 y querés acceder a él desde otra web o desde una aplicación JavaScript en localhost:5500, el navegador bloqueará la petición sin CORS. Entoces con esto permitimos configurar quien puede acceder al servidor y evitar errores de cross-origin Request Blocked que sucedia sin esto.
+---
 
-
-
-
+# Crear BD
