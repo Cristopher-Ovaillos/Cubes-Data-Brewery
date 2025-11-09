@@ -210,7 +210,7 @@ python -m venv cubes_env
 .\cubes_env\Scripts\activate 
 #puedo desactivarlo ingresando en la terminal "deactivate"
 ```
-![img-carpeta-projecto](https://github.com/Cristopher-Ovaillos/Cubes-Data-Brewery/blob/main/img/image_1.png)
+![img-carpeta-projecto](https://github.com/Cristopher-Ovaillos/Cubes-Data-Brewery/blob/main/img/image_1-1.png)
 
 
 **Dentro del entorno Virtual creado anteriormente**
