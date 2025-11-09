@@ -494,6 +494,25 @@ http://localhost:5000/cube/ventas/aggregate?cut=cliente.pais:Argentina|tiempo.an
 ```
 ![img-carpeta-projecto](https://github.com/Cristopher-Ovaillos/Cubes-Data-Brewery/blob/main/img/image_12.png).
 
+La consulta realizada al cubo `ventas` solicitó un resumen de los datos correspondientes únicamente a las ventas de clientes en **Argentina** durante el **año 2024**. La respuesta incluye los siguientes elementos:
+
+- **summary**: contiene los principales indicadores agregados del cubo.  
+  - `cantidad_sum`: suma de unidades vendidas → 17  
+  - `monto_sum`: monto total facturado → 6125  
+  - `monto_avg`: promedio por venta → 765,625  
+  - `cantidad_ventas`: número de transacciones → 8  
+
+- **cell**: indica la celda del cubo a la que corresponden los datos, es decir, el **filtro aplicado**.  
+  - Cliente: `Argentina`  
+  - Año: `2024`  
+
+- **aggregates**: lista de los agregados calculados en la consulta, por ejemplo:  
+  - `cantidad_sum`, `monto_sum`, `monto_avg`, `cantidad_ventas`  
+
+- **remainder** y **attributes**: aparecen vacíos en esta consulta porque no se aplicó desagregación adicional ni se solicitaron atributos específicos.
+
+Esta información permite obtener un panorama general de las ventas bajo los filtros aplicados y sirve como base para generar reportes, gráficos o análisis más detallados modificando los criterios de filtrado.
+
 ### Agregación por Categoría de Producto
 ```bash
 http://localhost:5000/cube/ventas/aggregate?drilldown=producto:categoria
