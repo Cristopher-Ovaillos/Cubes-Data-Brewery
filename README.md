@@ -1,5 +1,5 @@
 # GUIA instalacion de Cubes
-Cristopher: Cubes esta descontinuado desde el 2010 asi que no hay ningun tutorial.
+**Cristopher**: Cubes esta descontinuado desde el 2010 asi que no hay ningun tutorial.
 
 Tener una zona de trabajo, abrir la terminal de VSCODE y ejecutar en esa ubicacion lo siguiente: 
 
