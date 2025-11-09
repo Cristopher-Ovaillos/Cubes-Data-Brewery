@@ -4,6 +4,8 @@ Este README explica cómo hacer consultas OLAP con **Cubes / Slicer**, incluyend
 
 > **Nota:** en la documentación técnica aparecen placeholders entre `< >`. Estos **no** se envían tal cual: se reemplazan por el valor real sin los símbolos `<` o `>`.
 
+> La mayoria de comandos a copiar pone GET, pero en el navegador ponen URL/cube/ventas/aggregate?cut=cliente.pais:Argentina|tiempo.anio:2024&aggregates=cantidad_sum,monto_sum (GET /  sacan el GET)
+
 ---
 
 ## 1. Conceptos clave
