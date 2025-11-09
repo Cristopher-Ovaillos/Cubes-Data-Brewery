@@ -474,5 +474,58 @@ Al ingresar http://localhost:5000/ sale lo siguiente para que se entienda:
 ![img-carpeta-projecto](https://github.com/Cristopher-Ovaillos/Cubes-Data-Brewery/blob/main/img/image_8.png)
 ![img-carpeta-projecto](https://github.com/Cristopher-Ovaillos/Cubes-Data-Brewery/blob/main/img/image_9.png).
 
+podemos probar las siguientes consultas (estas se hacen por URL, se puede probar por el navegador y recibiremos .json como respuesta).
+
+### Información del Cubo
+```bash
+http://localhost:5000/cube/ventas/model
+```
+![img-carpeta-projecto](https://github.com/Cristopher-Ovaillos/Cubes-Data-Brewery/blob/main/img/image_10.png).
+
+### Agregación Simple (Total de ventas)
+```bash
+http://localhost:5000/cube/ventas/aggregate
+```
+![img-carpeta-projecto](https://github.com/Cristopher-Ovaillos/Cubes-Data-Brewery/blob/main/img/image_11.png).
+
+### Filtrar por País y Año
+```bash
+http://localhost:5000/cube/ventas/aggregate?cut=cliente.pais:Argentina|tiempo.anio:2024
+```
+![img-carpeta-projecto](https://github.com/Cristopher-Ovaillos/Cubes-Data-Brewery/blob/main/img/image_12.png).
+
+### Agregación por Categoría de Producto
+```bash
+http://localhost:5000/cube/ventas/aggregate?drilldown=producto:categoria
+```
+
+### Agregación por País
+```bash
+http://localhost:5000/cube/ventas/aggregate?drilldown=cliente:pais
+```
+
+### Agregación por Año y Trimestre
+```bash
+http://localhost:5000/cube/ventas/aggregate?drilldown=tiempo:anio|tiempo:trimestre
+```
+
+### Filtrar por Categoría
+```bash
+http://localhost:5000/cube/ventas/aggregate?cut=producto.categoria:Electrónica
+```
+
+### Múltiples Dimensiones
+```bash
+http://localhost:5000/cube/ventas/aggregate?drilldown=producto:categoria|cliente:pais
+```
+
+### Ordenar Resultados
+```bash
+http://localhost:5000/cube/ventas/aggregate?drilldown=producto:categoria&order=monto_sum:desc
+```
+
+### Listar Hechos Individuales (Facts)
+```bash
+http://localhost:5000/cube/ventas/facts
 
 ---
