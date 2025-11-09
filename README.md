@@ -8,7 +8,20 @@ cd Cubes-Data-Brewery
 ---
 ## Que es CUBES
 
+Cubes (DataBrewery) es un framework OLAP escrito en Python diseñado para facilitar el análisis multidimensional de datos.
 
+Funciona creando una capa lógica sobre las tablas relacionales: en lugar de escribir SQL complejo cada vez, se definen cubos con dimensiones (por ejemplo producto, cliente, tiempo), niveles (año → mes → día) y medidas (suma de ventas, cantidad). Esa capa lógica usa mappings para saber qué columna real de la base de datos corresponde a cada nombre lógico, de modo que las consultas se escriben en términos comprensibles y Cubes traduce todo a SQL o al backend correspondiente.
+
+Ofrece además un servidor HTTP/REST que permite pedir agregados, listar miembros de dimensiones, obtener hechos o ejecutar reportes desde aplicaciones y dashboards.
+
+Ventajas principales:
+
+- simplifica y estandariza consultas analíticas.
+- permite cambiar la estructura física (tablas/columnas) sin reescribir los análisis.
+- soporta drill-down/roll-up automático en jerarquías.
+- es integrable con visualizadores y herramientas web.
+
+Es especialmente útil para equipos que necesitan hacer análisis periódicos o exploratorios sobre datos almacenados en bases relacionales, porque acelera la creación de reportes y reduce errores al centralizar la lógica de negocio en el modelo del cubo.
 ---
 ## Archivos a descargar e instalar
    - [Python 3.6.7 (OBLIGATORIO: Click ADD-PATCH (Si aparece la opcion, al ejecutar el instalador))](https://drive.google.com/file/d/1wiY7CqwMDopTY8XzxT3vQo3_xUZXJxQT/view?usp=sharing)
@@ -67,8 +80,12 @@ python --version
 
 
 ### Carpeta de Trabajo
+
 ./Cubes-Data-Brewery
+
 ---
+## PASO 1: DB BROWSER SQLITE
+### Esto ya esta incluido en el repo. pero es para que vean como trabajar y crear TABLAS/POBLAR con otros dominio.
 - Crear una carpeta data.
 - Abrir DB browser (SQLITE).
 - Crear una base de datos `ventas`.
@@ -78,11 +95,16 @@ python --version
 Imagenes
 ![img-carpeta-projecto](https://github.com/Cristopher-Ovaillos/Cubes-Data-Brewery/blob/main/img/image_2.png)
 ![img-carpeta-projecto](https://github.com/Cristopher-Ovaillos/Cubes-Data-Brewery/blob/main/img/image_3.png)
-![img-carpeta-projecto](https://github.com/Cristopher-Ovaillos/Cubes-Data-Brewery/blob/main/img/image_4.png)
 
 Ingresar el SQL de crear tablas y de poblar. Ejecutar cada una.
 
+![img-carpeta-projecto](https://github.com/Cristopher-Ovaillos/Cubes-Data-Brewery/blob/main/img/image_4.png)
+
+Guardar Cambios.
+
 ![img-carpeta-projecto](https://github.com/Cristopher-Ovaillos/Cubes-Data-Brewery/blob/main/img/image_5.png)
+
+Veremos lo siguiente.
 ![img-carpeta-projecto](https://github.com/Cristopher-Ovaillos/Cubes-Data-Brewery/blob/main/img/image_6.png)
 
 **Crear tablas**
@@ -177,6 +199,7 @@ INSERT INTO ventas (venta_id, producto_id, cliente_id, fecha_id, cantidad, preci
 
 ```
 ---
+## PASO 2: Entorno Virtual Python
 *En nuestro projecto mismo, ingresar los siguientes comandos en orden.*
 ```bash
 # Crear un entorno virtual 
@@ -218,4 +241,187 @@ pip install flask-cors
 >**flask-cors** Es una extensión para Flask que maneja CORS (Cross-Origin Resource Sharing). CORS es un mecanismo de seguridad en los navegadores que bloquea solicitudes entre dominios diferentes por defecto. Plantemos lo siguiente, Si nuestro servidor Flask (por ejemplo, Cubes OLAP) corre en localhost:5000 y querés acceder a él desde otra web o desde una aplicación JavaScript en localhost:5500, el navegador bloqueará la petición sin CORS. Entoces con esto permitimos configurar quien puede acceder al servidor y evitar errores de cross-origin Request Blocked que sucedia sin esto.
 ---
 
-# Crear BD
+## PASO 3: Crear el MODELO del Cubo
+Mas info. 
+https://pythonhosted.org/cubes/model.html
+
+Describiremos los datos desde el modelo logico desde la perspeciva del usuario: Datos como se miden, agregan y reportan. El modelo es `INDEPENDIENTE` de la implementacion fisica de datos. Esto independencia hace que sea facil concentrarse en los datos en lugar de en las formas de obtener los datos. 
+
+```json
+{
+    "cubes": [
+        {
+            "name": "ventas",
+            "dimensions": ["producto", "cliente", "tiempo"],
+            "measures": [
+                {
+                    "name": "cantidad",
+                    "label": "Cantidad"
+                },
+                {
+                    "name": "monto_total",
+                    "label": "Monto Total"
+                }
+            ],
+            "aggregates": [
+                {
+                    "name": "cantidad_sum",
+                    "label": "Suma de Cantidad",
+                    "function": "sum",
+                    "measure": "cantidad"
+                },
+                {
+                    "name": "monto_sum",
+                    "label": "Suma de Monto",
+                    "function": "sum",
+                    "measure": "monto_total"
+                },
+                {
+                    "name": "monto_avg",
+                    "label": "Promedio de Monto",
+                    "function": "avg",
+                    "measure": "monto_total"
+                },
+                {
+                    "name": "cantidad_ventas",
+                    "label": "Cantidad de Ventas",
+                    "function": "count"
+                }
+            ],
+            "mappings": {
+                "producto.producto_id": "productos.producto_id",
+                "producto.nombre": "productos.nombre",
+                "producto.categoria": "productos.categoria",
+                "producto.subcategoria": "productos.subcategoria",
+                "cliente.cliente_id": "clientes.cliente_id",
+                "cliente.nombre": "clientes.nombre",
+                "cliente.ciudad": "clientes.ciudad",
+                "cliente.pais": "clientes.pais",
+                "tiempo.fecha_id": "tiempo.fecha_id",
+                "tiempo.fecha": "tiempo.fecha",
+                "tiempo.anio": "tiempo.anio",
+                "tiempo.mes": "tiempo.mes",
+                "tiempo.trimestre": "tiempo.trimestre"
+            },
+            "joins": [
+                {
+                    "master": "ventas.producto_id",
+                    "detail": "productos.producto_id"
+                },
+                {
+                    "master": "ventas.cliente_id",
+                    "detail": "clientes.cliente_id"
+                },
+                {
+                    "master": "ventas.fecha_id",
+                    "detail": "tiempo.fecha_id"
+                }
+            ]
+        }
+    ],
+    "dimensions": [
+        {
+            "name": "producto",
+            "label": "Producto",
+            "levels": [
+                {
+                    "name": "categoria",
+                    "label": "Categoría",
+                    "attributes": ["categoria"]
+                },
+                {
+                    "name": "subcategoria",
+                    "label": "Subcategoría",
+                    "attributes": ["subcategoria"]
+                },
+                {
+                    "name": "producto",
+                    "label": "Producto",
+                    "attributes": ["producto_id", "nombre"],
+                    "key": "producto_id",
+                    "label_attribute": "nombre"
+                }
+            ],
+            "hierarchies": [
+                {
+                    "name": "default",
+                    "levels": ["categoria", "subcategoria", "producto"]
+                }
+            ]
+        },
+        {
+            "name": "cliente",
+            "label": "Cliente",
+            "levels": [
+                {
+                    "name": "pais",
+                    "label": "País",
+                    "attributes": ["pais"]
+                },
+                {
+                    "name": "ciudad",
+                    "label": "Ciudad",
+                    "attributes": ["ciudad"]
+                },
+                {
+                    "name": "cliente",
+                    "label": "Cliente",
+                    "attributes": ["cliente_id", "nombre"],
+                    "key": "cliente_id",
+                    "label_attribute": "nombre"
+                }
+            ],
+            "hierarchies": [
+                {
+                    "name": "default",
+                    "levels": ["pais", "ciudad", "cliente"]
+                }
+            ]
+        },
+        {
+            "name": "tiempo",
+            "label": "Tiempo",
+            "levels": [
+                {
+                    "name": "anio",
+                    "label": "Año",
+                    "attributes": ["anio"]
+                },
+                {
+                    "name": "trimestre",
+                    "label": "Trimestre",
+                    "attributes": ["trimestre"]
+                },
+                {
+                    "name": "mes",
+                    "label": "Mes",
+                    "attributes": ["mes"]
+                },
+                {
+                    "name": "fecha",
+                    "label": "Fecha",
+                    "attributes": ["fecha_id", "fecha"],
+                    "key": "fecha_id",
+                    "label_attribute": "fecha"
+                }
+            ],
+            "hierarchies": [
+                {
+                    "name": "default",
+                    "levels": ["anio", "trimestre", "mes", "fecha"]
+                }
+            ]
+        }
+    ]
+}
+```
+
+DATOS:
+- CUBES: `ventas` que usa las dimensiones producto, cliente y tiempo. Dentro ademas definimos las medidas, agregados y mapeos asi como los join para unir las tabla de hechos con las dimensiones. 
+- MEASURES: `cantidad` y `monto_total`.
+- AGGREGATES: `cantidad_sum`, `monto_sum`, `monto_avg` y `cantidad_ventas`.
+- mappings: El nombre lógico es cómo vos querés llamar a un dato dentro de Cubes.
+  - El nombre físico es cómo se llama realmente en la base de datos.
+  - El mapping conecta ambos para que Cubes pueda traducir tus consultas a SQL sin que tengas que preocuparte por los nombres reales.
+*En este caso en mi DB se llaman igual asi que no hay problema.*
+

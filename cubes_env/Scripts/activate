@@ -37,7 +37,7 @@ deactivate () {
 # unset irrelevant variables
 deactivate nondestructive
 
-VIRTUAL_ENV="C:\Users\ASUS\Desktop\Cubes-Project\cubes_env"
+VIRTUAL_ENV="C:\Users\Cristopher-Ovaillos\Desktop\Cubes-Project\Cubes-Data-Brewery\cubes_env"
 export VIRTUAL_ENV
 
 _OLD_VIRTUAL_PATH="$PATH"

@@ -1,0 +1,166 @@
+{
+    "cubes": [
+        {
+            "name": "ventas",
+            "dimensions": ["producto", "cliente", "tiempo"],
+            "measures": [
+                {
+                    "name": "cantidad",
+                    "label": "Cantidad"
+                },
+                {
+                    "name": "monto_total",
+                    "label": "Monto Total"
+                }
+            ],
+            "aggregates": [
+                {
+                    "name": "cantidad_sum",
+                    "label": "Suma de Cantidad",
+                    "function": "sum",
+                    "measure": "cantidad"
+                },
+                {
+                    "name": "monto_sum",
+                    "label": "Suma de Monto",
+                    "function": "sum",
+                    "measure": "monto_total"
+                },
+                {
+                    "name": "monto_avg",
+                    "label": "Promedio de Monto",
+                    "function": "avg",
+                    "measure": "monto_total"
+                },
+                {
+                    "name": "cantidad_ventas",
+                    "label": "Cantidad de Ventas",
+                    "function": "count"
+                }
+            ],
+            "mappings": {
+                "producto.producto_id": "productos.producto_id",
+                "producto.nombre": "productos.nombre",
+                "producto.categoria": "productos.categoria",
+                "producto.subcategoria": "productos.subcategoria",
+                "cliente.cliente_id": "clientes.cliente_id",
+                "cliente.nombre": "clientes.nombre",
+                "cliente.ciudad": "clientes.ciudad",
+                "cliente.pais": "clientes.pais",
+                "tiempo.fecha_id": "tiempo.fecha_id",
+                "tiempo.fecha": "tiempo.fecha",
+                "tiempo.anio": "tiempo.anio",
+                "tiempo.mes": "tiempo.mes",
+                "tiempo.trimestre": "tiempo.trimestre"
+            },
+            "joins": [
+                {
+                    "master": "ventas.producto_id",
+                    "detail": "productos.producto_id"
+                },
+                {
+                    "master": "ventas.cliente_id",
+                    "detail": "clientes.cliente_id"
+                },
+                {
+                    "master": "ventas.fecha_id",
+                    "detail": "tiempo.fecha_id"
+                }
+            ]
+        }
+    ],
+    "dimensions": [
+        {
+            "name": "producto",
+            "label": "Producto",
+            "levels": [
+                {
+                    "name": "categoria",
+                    "label": "Categoría",
+                    "attributes": ["categoria"]
+                },
+                {
+                    "name": "subcategoria",
+                    "label": "Subcategoría",
+                    "attributes": ["subcategoria"]
+                },
+                {
+                    "name": "producto",
+                    "label": "Producto",
+                    "attributes": ["producto_id", "nombre"],
+                    "key": "producto_id",
+                    "label_attribute": "nombre"
+                }
+            ],
+            "hierarchies": [
+                {
+                    "name": "default",
+                    "levels": ["categoria", "subcategoria", "producto"]
+                }
+            ]
+        },
+        {
+            "name": "cliente",
+            "label": "Cliente",
+            "levels": [
+                {
+                    "name": "pais",
+                    "label": "País",
+                    "attributes": ["pais"]
+                },
+                {
+                    "name": "ciudad",
+                    "label": "Ciudad",
+                    "attributes": ["ciudad"]
+                },
+                {
+                    "name": "cliente",
+                    "label": "Cliente",
+                    "attributes": ["cliente_id", "nombre"],
+                    "key": "cliente_id",
+                    "label_attribute": "nombre"
+                }
+            ],
+            "hierarchies": [
+                {
+                    "name": "default",
+                    "levels": ["pais", "ciudad", "cliente"]
+                }
+            ]
+        },
+        {
+            "name": "tiempo",
+            "label": "Tiempo",
+            "levels": [
+                {
+                    "name": "anio",
+                    "label": "Año",
+                    "attributes": ["anio"]
+                },
+                {
+                    "name": "trimestre",
+                    "label": "Trimestre",
+                    "attributes": ["trimestre"]
+                },
+                {
+                    "name": "mes",
+                    "label": "Mes",
+                    "attributes": ["mes"]
+                },
+                {
+                    "name": "fecha",
+                    "label": "Fecha",
+                    "attributes": ["fecha_id", "fecha"],
+                    "key": "fecha_id",
+                    "label_attribute": "fecha"
+                }
+            ],
+            "hierarchies": [
+                {
+                    "name": "default",
+                    "levels": ["anio", "trimestre", "mes", "fecha"]
+                }
+            ]
+        }
+    ]
+}
