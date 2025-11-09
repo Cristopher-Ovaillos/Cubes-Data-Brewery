@@ -428,15 +428,15 @@ DATOS:
 
 ## PASO 4: Crear el Archivo de Configuración
 
-4.1 Crear un archivo `slicer.ini`
+4.1 Crear un archivo `slicer.ini` (en mi caso slicer esta dentro de una carpeta dentro de mi zona de trabajo, por eso puse `data/`).
 
 ```ini
 [workspace]
-model = modelo.json
+model = data/modelo.json
 
 [store]
 type = sql
-url = sqlite:///ventas.db
+url = sqlite:///data/ventas.db
 schema = main
 
 [server]
@@ -446,12 +446,24 @@ reload = yes
 log_level = info
 
 [models]
-main = modelo.json  
+main = data/modelo.json   
 ```
 4.2 Iniciar el servidor `slicer.ini` (estar en la ubicacion del archivo-acordarse y dentro del entorno).
 
-
 ```bash
-slicer serve slicer.ini
+slicer serve .\data\slicer.ini
 ```
+
+
+![img-carpeta-projecto](https://github.com/Cristopher-Ovaillos/Cubes-Data-Brewery/blob/main/img/image_7.png)
+
+Visualizamos el link de exito, ingresamos: http://localhost:5000/ .
+En esta terminal podemos visualizar las peticiones que hacemos al servidor.
+Observaremos si esas peticiones son exitosas o no.
+Recordar codigos HTTPs `200` `400`,etc.
+Al ingresar http://localhost:5000/ sale lo siguiente para que se entienda:
+![img-carpeta-projecto](https://github.com/Cristopher-Ovaillos/Cubes-Data-Brewery/blob/main/img/image_8.png)
+![img-carpeta-projecto](https://github.com/Cristopher-Ovaillos/Cubes-Data-Brewery/blob/main/img/image_9.png).
+
+
 ---
