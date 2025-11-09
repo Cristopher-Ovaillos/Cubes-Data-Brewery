@@ -450,6 +450,11 @@ main = data/modelo.json
 ```
 4.2 Iniciar el servidor `slicer.ini` (estar en la ubicacion del archivo-acordarse y dentro del entorno).
 
+[Info para saber que es SLICER y que hacer si queremos usar otra base de datos.](https://github.com/Cristopher-Ovaillos/Cubes-Data-Brewery/blob/main/docs/slicer.md)
+
+
+
+
 ```bash
 slicer serve .\data\slicer.ini
 ```
@@ -457,10 +462,14 @@ slicer serve .\data\slicer.ini
 
 ![img-carpeta-projecto](https://github.com/Cristopher-Ovaillos/Cubes-Data-Brewery/blob/main/img/image_7.png)
 
-Visualizamos el link de exito, ingresamos: http://localhost:5000/ .
+**Visualizamos el link de exito, ingresamos: http://localhost:5000/.**
+
 En esta terminal podemos visualizar las peticiones que hacemos al servidor.
+
 Observaremos si esas peticiones son exitosas o no.
+
 Recordar codigos HTTPs `200` `400`,etc.
+
 Al ingresar http://localhost:5000/ sale lo siguiente para que se entienda:
 ![img-carpeta-projecto](https://github.com/Cristopher-Ovaillos/Cubes-Data-Brewery/blob/main/img/image_8.png)
 ![img-carpeta-projecto](https://github.com/Cristopher-Ovaillos/Cubes-Data-Brewery/blob/main/img/image_9.png).
