@@ -535,6 +535,9 @@ La consulta realizada al cubo `ventas` solicitó un resumen de los datos corresp
 Esta información permite obtener un panorama general de las ventas bajo los filtros aplicados y sirve como base para generar reportes, gráficos o análisis más detallados modificando los criterios de filtrado.
 
 ### Agregación por Categoría de Producto
+
+Dame los datos agregados del cubo ventas, agrupados por la dimensión producto:categoria
+
 ```bash
 http://localhost:5000/cube/ventas/aggregate?drilldown=producto:categoria
 ```
