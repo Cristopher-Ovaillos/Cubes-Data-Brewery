@@ -1,0 +1,331 @@
+{
+  "cubes": [
+    {
+      "name": "mantenimiento",
+      "fact": "fact_mantenimiento",
+      "dimensions": [
+        "avion",
+        "mecanico",
+        "aprendiz",
+        "tiempo",
+        "tipo_trabajo",
+        "tipo_tarea"
+      ],
+      "measures": [
+        {
+          "name": "monto_precio_base",
+          "label": "Monto Precio"
+        },
+        {
+          "name": "cant_horas_practica_base",
+          "label": "Horas Practica"
+        },
+        {
+          "name": "horas_vuelo_base",
+          "label": "Horas Vuelo"
+        },
+        {
+          "name": "ciclos_vuelo_base",
+          "label": "Ciclos Vuelo"
+        }
+      ],
+      "aggregates": [
+        {
+          "name": "total_ingresos",
+          "label": "Total Ingresos",
+          "function": "sum",
+          "measure": "monto_precio_base"
+        },
+        {
+          "name": "horas_formacion_total",
+          "label": "Total Horas Formacion",
+          "function": "sum",
+          "measure": "cant_horas_practica_base"
+        },
+        {
+          "name": "promedio_horas_vuelo",
+          "label": "Promedio Horas Vuelo",
+          "function": "avg",
+          "measure": "horas_vuelo_base"
+        },
+        {
+          "name": "promedio_ciclos_vuelo",
+          "label": "Promedio Ciclos Vuelo",
+          "function": "avg",
+          "measure": "ciclos_vuelo_base"
+        },
+        {
+          "name": "nro_mantenimientos",
+          "label": "Cantidad Mantenimientos",
+          "function": "count"
+        },
+        {
+          "name": "promedio_precio",
+          "label": "Promedio Precio",
+          "function": "avg",
+          "measure": "monto_precio_base"
+        },
+        {
+          "name": "costo_estimado_formacion",
+          "label": "Costo Estimado Formacion (x50)",
+          "function": "sum",
+          "measure": "cant_horas_practica_base",
+          "ref": "costo_estimado_formacion"
+        }
+      ],
+      "mappings": {
+        "avion.pk_avion": "dim_avion.pk_avion",
+        "avion.matricula": "dim_avion.matricula",
+        "avion.modelo": "dim_avion.modelo",
+        "avion.cant_pasajeros": "dim_avion.cant_pasajeros",
+        "mecanico.pk_mecanico": "dim_mecanico.pk_mecanico",
+        "mecanico.dni_mecanico": "dim_mecanico.dni_mecanico",
+        "mecanico.nombre_apellido": "dim_mecanico.nombre_apellido",
+        "mecanico.especialidad": "dim_mecanico.especialidad",
+        "aprendiz.pk_aprendiz": "dim_aprendiz.pk_aprendiz",
+        "aprendiz.dni_aprendiz": "dim_aprendiz.dni_aprendiz",
+        "aprendiz.nombre_apellido": "dim_aprendiz.nombre_apellido",
+        "aprendiz.nivel_formacion": "dim_aprendiz.nivel_formacion",
+        "aprendiz.sexo": "dim_aprendiz.sexo",
+        "tiempo.pk_tiempo": "dim_tiempo.pk_tiempo",
+        "tiempo.fecha_completa": "dim_tiempo.fecha_completa",
+        "tiempo.anio": "dim_tiempo.anio",
+        "tiempo.mes_numero": "dim_tiempo.mes_numero",
+        "tiempo.mes_nombre": "dim_tiempo.mes_nombre",
+        "tiempo.trimestre": "dim_tiempo.trimestre",
+        "tiempo.dia": "dim_tiempo.dia",
+        "tipo_trabajo.pk_tipo_trabajo": "dim_tipo_trabajo.pk_tipo_trabajo",
+        "tipo_trabajo.desc_tipo_trabajo": "dim_tipo_trabajo.desc_tipo_trabajo",
+        "tipo_tarea.pk_tipo_tarea": "dim_tipo_tarea.pk_tipo_tarea",
+        "tipo_tarea.desc_tipo_tarea": "dim_tipo_tarea.desc_tipo_tarea"
+      },
+      "joins": [
+        {
+          "master": "fact_mantenimiento.pk_avion",
+          "detail": "dim_avion.pk_avion"
+        },
+        {
+          "master": "fact_mantenimiento.pk_mecanico",
+          "detail": "dim_mecanico.pk_mecanico"
+        },
+        {
+          "master": "fact_mantenimiento.pk_aprendiz",
+          "detail": "dim_aprendiz.pk_aprendiz"
+        },
+        {
+          "master": "fact_mantenimiento.pk_tiempo_inicio",
+          "detail": "dim_tiempo.pk_tiempo",
+          "alias": "tiempo_inicio"
+        },
+        {
+          "master": "fact_mantenimiento.pk_tipo_trabajo",
+          "detail": "dim_tipo_trabajo.pk_tipo_trabajo"
+        },
+        {
+          "master": "fact_mantenimiento.pk_tipo_tarea",
+          "detail": "dim_tipo_tarea.pk_tipo_tarea"
+        }
+      ]
+    }
+  ],
+  "dimensions": [
+    {
+      "name": "avion",
+      "label": "Avion",
+      "levels": [
+        {
+          "name": "modelo",
+          "label": "Modelo",
+          "attributes": [
+            "modelo"
+          ]
+        },
+        {
+          "name": "avion",
+          "label": "Avion",
+          "attributes": [
+            "pk_avion",
+            "matricula",
+            "cant_pasajeros"
+          ],
+          "key": "pk_avion",
+          "label_attribute": "matricula"
+        }
+      ],
+      "hierarchies": [
+        {
+          "name": "default",
+          "levels": [
+            "modelo",
+            "avion"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "mecanico",
+      "label": "Mecanico",
+      "levels": [
+        {
+          "name": "especialidad",
+          "label": "Especialidad",
+          "attributes": [
+            "especialidad"
+          ]
+        },
+        {
+          "name": "mecanico",
+          "label": "Mecanico",
+          "attributes": [
+            "pk_mecanico",
+            "dni_mecanico",
+            "nombre_apellido"
+          ],
+          "key": "pk_mecanico",
+          "label_attribute": "nombre_apellido"
+        }
+      ],
+      "hierarchies": [
+        {
+          "name": "default",
+          "levels": [
+            "especialidad",
+            "mecanico"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "aprendiz",
+      "label": "Aprendiz",
+      "levels": [
+        {
+          "name": "nivel_formacion",
+          "label": "Nivel Formacion",
+          "attributes": [
+            "nivel_formacion"
+          ]
+        },
+        {
+          "name": "sexo",
+          "label": "Sexo",
+          "attributes": [
+            "sexo"
+          ]
+        },
+        {
+          "name": "aprendiz",
+          "label": "Aprendiz",
+          "attributes": [
+            "pk_aprendiz",
+            "dni_aprendiz",
+            "nombre_apellido"
+          ],
+          "key": "pk_aprendiz",
+          "label_attribute": "nombre_apellido"
+        }
+      ],
+      "hierarchies": [
+        {
+          "name": "default",
+          "levels": [
+            "nivel_formacion",
+            "aprendiz"
+          ]
+        },
+        {
+          "name": "por_sexo",
+          "levels": [
+            "sexo",
+            "nivel_formacion",
+            "aprendiz"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "tiempo",
+      "label": "Tiempo",
+      "levels": [
+        {
+          "name": "anio",
+          "label": "Año",
+          "attributes": [
+            "anio"
+          ]
+        },
+        {
+          "name": "trimestre",
+          "label": "Trimestre",
+          "attributes": [
+            "trimestre"
+          ]
+        },
+        {
+          "name": "mes",
+          "label": "Mes",
+          "attributes": [
+            "mes_numero",
+            "mes_nombre"
+          ],
+          "key": "mes_numero",
+          "label_attribute": "mes_nombre"
+        },
+        {
+          "name": "fecha",
+          "label": "Fecha",
+          "attributes": [
+            "pk_tiempo",
+            "fecha_completa",
+            "dia"
+          ],
+          "key": "pk_tiempo",
+          "label_attribute": "fecha_completa"
+        }
+      ],
+      "hierarchies": [
+        {
+          "name": "default",
+          "levels": [
+            "anio",
+            "trimestre",
+            "mes",
+            "fecha"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "tipo_trabajo",
+      "label": "Tipo Trabajo",
+      "levels": [
+        {
+          "name": "tipo_trabajo",
+          "label": "Tipo Trabajo",
+          "attributes": [
+            "pk_tipo_trabajo",
+            "desc_tipo_trabajo"
+          ],
+          "key": "pk_tipo_trabajo",
+          "label_attribute": "desc_tipo_trabajo"
+        }
+      ]
+    },
+    {
+      "name": "tipo_tarea",
+      "label": "Tipo Tarea",
+      "levels": [
+        {
+          "name": "tipo_tarea",
+          "label": "Tipo Tarea",
+          "attributes": [
+            "pk_tipo_tarea",
+            "desc_tipo_tarea"
+          ],
+          "key": "pk_tipo_tarea",
+          "label_attribute": "desc_tipo_tarea"
+        }
+      ]
+    }
+  ]
+}

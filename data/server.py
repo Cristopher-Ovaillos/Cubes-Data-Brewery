@@ -7,11 +7,11 @@ from configparser import ConfigParser
 # Configuración INI
 config_string = """
 [workspace]
-model = data/modelo.json
+model = data/modelo_mantenimiento.json
 
 [store]
 type = sql
-url = sqlite:///data/ventas.db
+url = sqlite:///data/mantenimiento.db
 schema = main
 
 [server]
@@ -23,7 +23,7 @@ allow_cors_origin = *
 prettyprint = yes
 
 [models]
-main = data/modelo.json
+main = data/modelo_mantenimiento.json
 """
 
 config = ConfigParser()
@@ -72,8 +72,8 @@ def print_ascii_once():
         print(f"- URL: http://localhost:5000")
         print(f"- Cubes: http://localhost:5000/cubes")
         print(f"- Info: http://localhost:5000/info")
-        print(f"- Modelo: http://localhost:5000/cube/ventas/model")
-        print(f"- Aggregate: http://localhost:5000/cube/ventas/aggregate")
+        print(f"- Modelo: http://localhost:5000/cube/<nombre_cubo>/model")
+        print(f"- Aggregate: http://localhost:5000/cube/<nombre_cubo>/aggregate")
         print("="*60)
         print("✅ CORS está habilitado - CubesViewer puede conectarse")
         print("="*60)
@@ -86,9 +86,9 @@ if __name__ == "__main__":
         app.run(
             host='localhost',
             port=5000,
-            debug=False,
-            use_reloader=False,
-            threaded=False
+            debug=True,           
+            use_reloader=True,    
+            threaded=True
         )
     except KeyboardInterrupt:
         print("\n\n👋 Servidor detenido correctamente")
