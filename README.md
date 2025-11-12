@@ -8,6 +8,7 @@ Tener una zona de trabajo, abrir la terminal de VSCODE y ejecutar en esa ubicaci
 git clone https://github.com/Cristopher-Ovaillos/Cubes-Data-Brewery.git
 
 cd Cubes-Data-Brewery
+#finalizacion :D
 ```
 
 ## Índice
@@ -21,6 +22,8 @@ cd Cubes-Data-Brewery
 - [PASO 3: Crear el MODELO del Cubo](#paso-3-crear-el-modelo-del-cubo)
 - [PASO 4: Crear el Archivo de Configuración](#paso-4-crear-el-archivo-de-configuración)
 - [PASO 5: CubesViewer-Intefaz grafica](#paso-5-cubesviewer-intefaz-grafica)
+- [OPCIONES CUBES-VIEWER](#Opciones-Cubes-Viewer)
+
 
 
 ---
@@ -218,7 +221,7 @@ INSERT INTO ventas (venta_id, producto_id, cliente_id, fecha_id, cantidad, preci
 ## PASO 2: Entorno Virtual Python
 *En nuestro projecto mismo, ingresar los siguientes comandos en orden.*
 ```bash
-# Crear un entorno virtual 
+# Crear un entorno virtual - ESPERAR
 python -m venv cubes_env
 
 # Activar el entorno virtual
@@ -611,7 +614,7 @@ python .\data\server.py
 ![img-carpeta-projecto](https://github.com/Cristopher-Ovaillos/Cubes-Data-Brewery/blob/main/img/image_16.png)
 Ya anda, perfectamente.
 
-- En otra terminal aparte, no cerrar donde corre el servidor.
+- En otra terminal aparte, no cerrar donde corre el servidor(la terminal debe estar dentro de Cubes-Data-Brewery, ingresar "cd Cubes-Data-Brewery" en la terminal).
 
 
 ```bash
@@ -697,3 +700,157 @@ Por ejemplo, al analizar las categorías de productos que más se venden:
   - Preguntarse:  
     - ¿Qué pasaría si el proveedor de accesorios falla?  
     - ¿Deberíamos impulsar las otras categorías para diversificar?
+---
+
+# Opciones Cubes Viewer 
+
+**Opciones interactivas** que ofrece **CubesViewer**, el visor OLAP del framework **Cubes (Data Brewery)**.
+Su objetivo es ayudarte a comprender **cómo explorar datos multidimensionales** (cubos) mediante filtros, desgloses (*drilldowns*) y configuraciones de vista.
+
+---
+
+## 1. Conceptos básicos
+
+### Cubes (Data Brewery)
+Cubes es un **servidor OLAP ligero** que permite definir modelos analíticos (cubos) sobre una fuente de datos relacional.
+Cada cubo contiene:
+
+- **Dimensiones (dimensions):** Ejes de análisis.
+  Ej: `tiempo`, `avión`, `mecánico`, `tipo_mantenimiento`.
+- **Jerarquías (hierarchies):** Niveles dentro de una dimensión.
+  Ej: `tiempo → año → mes → día`.
+- **Medidas (measures):** Valores numéricos que se pueden agregar.
+  Ej: `horas_trabajadas`, `costos`, `cantidad_tareas`.
+
+### CubesViewer
+Es una aplicación web que se conecta al servidor Cubes y permite:
+- Navegar visualmente por los cubos.
+- Aplicar filtros, desgloses y agrupaciones.
+- Exportar y guardar vistas de análisis.
+
+---
+
+## 2. Opciones principales en CubesViewer
+
+### A. Drilldown (Desglose jerárquico)
+
+**Qué hace:**
+Permite **profundizar en una dimensión** para ver los datos en mayor detalle.
+Por ejemplo, de *Año → Mes → Día*, o de *Tipo de mantenimiento → Tarea específica*.
+
+**Cómo se usa:**
+- Selecciona una **dimensión jerárquica** en el menú “Drilldown”.
+- Puedes aplicar varios niveles de desglose.
+- Los resultados se agrupan automáticamente por las categorías seleccionadas.
+
+**Ejemplo:**
+> **Drilldown:** `tiempo.año` → `tiempo.mes`
+> **Medida:** `horas_trabajadas`
+> *Muestra la suma de horas trabajadas por mes dentro de cada año.*
+
+---
+
+### B. Filters (Filtros)
+
+**Qué hacen:**
+Limitan los datos visibles a un subconjunto que cumpla una condición.
+
+Existen **dos tipos principales**:
+
+#### 1. Dimension Filter
+Filtra según valores de una dimensión.
+
+**Ejemplo:**
+> **Dimension filter:** `tipo_mantenimiento = "Preventivo"`
+> *Solo se muestran datos de mantenimientos preventivos.*
+
+#### 2. Date Filter
+Filtra un rango de fechas (usando la dimensión de tiempo).
+
+**Ejemplo:**
+> **Date filter:** `desde 2025-01-01 hasta 2025-06-30`
+> *Solo se incluyen registros dentro de ese rango temporal.*
+
+**Notas:**
+- Puedes combinar varios filtros.
+- Los filtros se aplican *antes* de las agregaciones.
+
+---
+
+### C. View (Configuración de vista)
+
+**Qué hace:**
+Define **cómo se presenta la información** en pantalla.
+
+Incluye tres aspectos principales:
+
+#### 1. Horizontal Dimension
+Selecciona **qué dimensión** se mostrará en el eje X o en las columnas.
+
+**Ejemplo:**
+> **Horizontal dimension:** `tiempo.mes`
+> *Las columnas del gráfico mostrarán cada mes.*
+
+#### 2. Vertical Dimension (si aplica)
+Permite definir una segunda dimensión para el eje Y o las filas.
+
+**Ejemplo:**
+> **Vertical dimension:** `tipo_mantenimiento`
+> *Cada fila representará un tipo de mantenimiento.*
+
+#### 3. Measures (Medidas)
+Selecciona **qué valores numéricos** se muestran o agregan.
+
+**Ejemplo:**
+> **Measure:** `horas_trabajadas`, `costos`
+> *Las celdas o barras mostrarán las horas y el costo total.*
+
+---
+
+## 3. Interacción y análisis
+
+| Acción | Descripción | Resultado |
+| :--- | :--- | :--- |
+| **Drilldown** | Desglosa una dimensión jerárquica | Aumenta el detalle del análisis |
+| **Roll-up** | Regresa a un nivel superior | Menos detalle, vista más general |
+| **Filter** | Aplica condiciones o rangos | Muestra solo los datos relevantes |
+| **View** | Configura ejes y medidas | Cambia la presentación del análisis |
+| **Save view** | Guarda una configuración | Permite volver a la misma vista luego |
+
+---
+
+## 4. Ejemplo completo
+
+**Cubo:** `mantenimientos`
+**Medidas:** `horas_trabajadas`, `costos`
+**Dimensiones:** `tiempo`, `avión`, `tipo_mantenimiento`, `mecánico`
+
+**Configuración de vista:**
+1. **Drilldown:** `tiempo.año` → `tiempo.mes`
+2. **Filters:**
+   - `tipo_mantenimiento = "Correctivo"`
+   - `tiempo` entre `2025-01-01` y `2025-06-30`
+3. **View:**
+   - **Horizontal dimension:** `tiempo.mes`
+   - **Measures:** `horas_trabajadas`, `costos`
+
+**Interpretación:**
+> La vista muestra la suma mensual de horas trabajadas y costos de los mantenimientos correctivos durante el primer semestre de 2025.
+
+---
+
+## 5. Consejos prácticos
+
+- Usa **drilldown** para descubrir patrones o anomalías.
+- Combina **dimension filters** y **date filters** para aislar periodos o categorías.
+- Cambia la **horizontal dimension** para explorar distintas perspectivas.
+- Guarda las vistas que aporten valor analítico para comparaciones futuras.
+
+---
+
+## 6. Recursos
+
+- [Documentación oficial de Cubes (Data Brewery)](https://databrewery.org/)
+- [CubesViewer Manual](https://github.com/jjmontesl/cubesviewer)
+- [Modelo OLAP y dimensiones](https://en.wikipedia.org/wiki/OLAP_cube)
+---
