@@ -249,7 +249,7 @@ pip install flask-cors
 
 >**cubes==1.1** Es el Framework OLAP que vamos a usar. Este lo que hace es traducir consultas dimensiones que serian los famosos cubes a SQL.
 
->**sqlalchemy==1.3.24** Cubes fue desarrollado alrededor de la API de SQLEALCHEMY. 
+>**sqlalchemy==1.3.24** Cubes fue desarrollado alrededor de la API de SQLEALCHEMY. SQLAlchemy es una biblioteca de Python que facilita la comunicación con bases de datos relacionales. 
 
 >**flask==1.1.4** Microframework web en Python. Cubes lo usa para servir el servidor OLAP vía HTTP.
 
